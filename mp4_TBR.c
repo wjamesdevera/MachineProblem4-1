@@ -19,7 +19,7 @@ float studentGrade[5] = {0,0,0,0,0};
 int remark[5] = {1, 1, 1, 1, 1};
 float FA, SA;
 int student;
-int i, j, k, x;
+int i, j, x;
 
 int main (void)
 {
@@ -50,7 +50,7 @@ void menu()
 			    viewAll();
 				break;
 			case 5:
-//			    sortedView();
+			    sortedView();
 			    break;
 			case 6:
 			    exit(0);
@@ -189,10 +189,10 @@ void dropStudent() {
 }
 
 void viewAll() {
-    printf("\n\t  FA1\tFA2\tFA3\tSA1\tSA2\tAVERAGE\tREMARKS\n");
+    printf("\n\t\tFA1\tFA2\tFA3\tSA1\tSA2\tAVERAGE\tREMARKS\n");
     for (i = 0; i < 5; i++) 
 	{
-        printf("Student %d:", i + 1);
+        printf("Student %d:\t", i + 1);
         for (x = 0; x < 5; x++) 
 		{
             printf("%.1f\t", grades[i][x]);
@@ -215,10 +215,62 @@ void viewAll() {
 		{
 			printf("N/A");
 		}
-        
-
     }
 }
+
+
+void sortedView() {
+    // Make a copy of the studentGrade array and sort it using selection sort
+    float order[5];
+    for ( i = 0; i < 5; i++) {
+        order[i] = studentGrade[i];
+    }
+    for ( i = 0; i < 4; i++) {
+        int minIndex = i;
+        for ( j = i + 1; j < 5; j++) {
+            if (order[j] < order[minIndex]) {
+                minIndex = j;
+            }
+        }
+        float temp = order[i];
+        order[i] = order[minIndex];
+        order[minIndex] = temp;
+    }
+
+    // Print the students in the sorted order, with dropped students at the end
+    printf("\n\t\tFA1\tFA2\tFA3\tSA1\tSA2\tAVERAGE\tREMARK\n");
+    for ( x = 0; x < 5; x++) {
+        for ( i = 0; i < 5; i++) {
+            if (order[x] == studentGrade[i]) {
+                if (remark[i] != 0) {
+                    printf("Student %d\t", i + 1);
+                    for ( j = 0; j < 5; j++) {
+                        printf("%.1f\t", grades[i][j]);
+                    }
+                    printf("%.1f\t", studentGrade[i]);
+                    if (remark[i] == 1) {
+                        printf("FAILED\n");
+                    } else {
+                        printf("PASSED\n");
+                    }
+                }
+                break;
+            }
+        }
+    }
+    for ( i = 0; i < 5; i++) {
+        if (remark[i] == 0) {
+            printf("Student %d\t", i + 1);
+            for ( j = 0; j < 5; j++) {
+                printf("%.1f\t", grades[i][j]);
+            }
+            printf("%.1f\tDROPPED\n", studentGrade[i]);
+        }
+    }
+}
+
+
+
 
 
 
