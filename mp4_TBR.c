@@ -148,76 +148,20 @@ void updateAssess()
     }
 }
 
-//void dropStudent() {
-//    while (1) 
-//	{
-//        printf("Student <1-5>:");
-//        scanf("%d", & student);
-//        
-//        if (student >= 1 && student <= 5) 
-//		{
-//            studentGrade[student - 1] = -1; // mark student as dropped
-//            printf("Student %d dropped.\n", student);
-//            break;
-//        } 
-//		else 
-//		{
-//            printf("INPUT INCORRECT!");
-//        }
-//    }
-//}
-//
-//void viewAll() {
-//    printf("\n\tFA1\tFA2\tFA3\tSA1\tSA2\tAVERAGE\tREMARKS\n");
-//    for (i = 0; i < 5; i++) 
-//	{
-//        printf("Student %d:", i + 1);
-//        for (x = 0; x < 5; x++) 
-//		{
-//            printf("%.1f\t", grades[i][x]);
-//        }
-//        
-//        if (studentGrade[i] < 0) // student has been dropped
-//		{ 
-//			printf("%.1f\t", studentGrade[i]);
-//            printf("DROPPED\n");
-//        }
-//		 
-//		else 
-//		{
-//            printf("%.1f\t", studentGrade[i]);
-//            if (studentGrade[i] >= 50) 
-//			{
-//                printf("PASSED\n");
-//            } 
-//			else 
-//			{
-//                printf("FAILED\n");
-//            }
-//        }
-//        printf("\n");
-//    }
-//}
-
-
-
-
 void dropStudent() {
-    while (1) {
+    while (1) 
+	{
         printf("Student <1-5>:");
-        scanf("%d", &student);
-
-        if (student >= 1 && student <= 5) {
-            originalGrades[student - 1][0] = grades[student - 1][0];
-            originalGrades[student - 1][1] = grades[student - 1][1];
-            originalGrades[student - 1][2] = grades[student - 1][2];
-            originalGrades[student - 1][3] = grades[student - 1][3];
-            originalGrades[student - 1][4] = grades[student - 1][4];
-
+        scanf("%d", & student);
+        
+        if (student >= 1 && student <= 5) 
+		{
             studentGrade[student - 1] = -1; // mark student as dropped
             printf("Student %d dropped.\n", student);
             break;
-        } else {
+        } 
+		else 
+		{
             printf("INPUT INCORRECT!");
         }
     }
@@ -225,25 +169,29 @@ void dropStudent() {
 
 void viewAll() {
     printf("\n\tFA1\tFA2\tFA3\tSA1\tSA2\tAVERAGE\tREMARKS\n");
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < 5; i++) 
+	{
         printf("Student %d:", i + 1);
-        for (x = 0; x < 5; x++) {
+        for (x = 0; x < 5; x++) 
+		{
             printf("%.1f\t", grades[i][x]);
         }
-
-        if (studentGrade[i] < 0) { // student has been dropped
-            printf("%.1f\t", originalGrades[i][0]);
-            printf("%.1f\t", originalGrades[i][1]);
-            printf("%.1f\t", originalGrades[i][2]);
-            printf("%.1f\t", originalGrades[i][3]);
-            printf("%.1f\t", originalGrades[i][4]);
-            printf("%.1f\t", studentGrade[i]);
+        
+        if (studentGrade[i] < 0) // student has been dropped
+		{ 
+			printf("%.1f\t", studentGrade[i]);
             printf("DROPPED\n");
-        } else {
+        }
+		 
+		else 
+		{
             printf("%.1f\t", studentGrade[i]);
-            if (studentGrade[i] >= 50) {
+            if (studentGrade[i] >= 50) 
+			{
                 printf("PASSED\n");
-            } else {
+            } 
+			else 
+			{
                 printf("FAILED\n");
             }
         }
@@ -252,96 +200,6 @@ void viewAll() {
 }
 
 
-void sortedView()
-{
-    //int droppedCount = 0;
-    float temp;
-    int tempIndex;
-    
-    // Sort studentGrade array in ascending order
-    for ( i = 0; i < 4; i++)
-    {
-        for ( j = i+1; j < 5; j++)
-        {
-            if (studentGrade[j] >= 0 && (studentGrade[i] < 0 || studentGrade[j] < studentGrade[i]))
-            {
-                temp = studentGrade[i];
-                studentGrade[i] = studentGrade[j];
-                studentGrade[j] = temp;
-                
-                // Swap grades of the corresponding students
-                for ( k = 0; k < 5; k++)
-                {
-                    temp = grades[i][k];
-                    grades[i][k] = grades[j][k];
-                    grades[j][k] = temp;
-                }
-            }
-        }
-    }
-    
-    // Move students with dropped grades to the end of the array
-    for ( i = 0; i < 4; i++)
-    {
-        if (studentGrade[i] < 0)
-        {
-            for ( j = i+1; j < 5; j++)
-            {
-                if (studentGrade[j] >= 0)
-                {
-                    temp = studentGrade[i];
-                    studentGrade[i] = studentGrade[j];
-                    studentGrade[j] = temp;
-
-                    // Swap grades of the corresponding students
-                    for ( k = 0; k < 5; k++)
-                    {
-                        temp = grades[i][k];
-                        grades[i][k] = grades[j][k];
-                        grades[j][k] = temp;
-                    }
-
-                    break;
-                }
-            }
-        }
-    }
-    
-//    // Count number of dropped students
-//    for ( i = 0; i < 5; i++)
-//    {
-//        if (studentGrade[i] < 0)
-//        {
-//            droppedCount++;
-//        }
-//    }
-    
-    // Print sorted view
-    printf("\n\tFA1\tFA2\tFA3\tSA1\tSA2\tAVERAGE\tREMARKS\n");
-    for ( i = 0; i < 5 ; i++)
-    {
-        printf("Student %d:", i + 1);
-        for ( j = 0; j < 5; j++)
-        {
-            printf("%.1f\t", grades[i][j]);
-        }
-        printf("%.1f\t", studentGrade[i]);
-        if (studentGrade[i] >= 50)
-        {
-            printf("PASSED\n");
-        }
-        if (studentGrade[i] < 50)
-        {
-            printf("FAILED\n");
-        }
-        	printf("%.1f\t", studentGrade[i]);
-        	printf("DROPPED\n");
-    }
-//    for ( i = 0; i < droppedCount; i++)
-//    {
-//        
-//    }
-}
 
 
 
