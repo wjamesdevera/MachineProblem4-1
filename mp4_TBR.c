@@ -110,12 +110,12 @@ void updateAssess()
 {
     int assess;
     float FA = 0, SA = 0;
-
+	
     while(1)
     {
         printf("Student <1-5>: ");
         scanf("%d", &student);
-
+		int studentNo = student - 1;
         if(student >= 1 && student <= 5)
         {
             printf("<1> FA 1\n<2> FA 2\n<3> FA 3\n<4> SA 1\n<5> SA 2\nChoose Assessment <1-5>: ");
@@ -137,14 +137,21 @@ void updateAssess()
                 // Calculate the new student grade
                 for(i = 0; i < 3; i++)
                 {
-                    FA += grades[student-1][i];
+                    FA += grades[studentNo][i];
                 }
                 for(i = 3; i < 5; i++)
                 {
-                    SA += grades[student-1][i];
+                    SA += grades[studentNo][i];
                 }
-                studentGrade[student-1] = ((FA/3) * .7) + ((SA/2) * .3);
-
+                
+                float studentAvg = ((FA/3) * .7) + ((SA/2) * .3);
+				studentGrade[studentNo] = studentAvg;
+				
+				if (studentAvg >= 50)
+				{
+					remark[studentNo] = 2; // Student passed
+				}
+				
                 printf("Student %d updated.\n", student);
                 break;
             }
@@ -209,25 +216,7 @@ void viewAll() {
 			printf("N/A");
 		}
         
-//        if (studentGrade[i] < 0) // student has been dropped
-//		{ 
-//			
-//            printf("DROPPED\n");
-//        }
-//		 
-//		else 
-//		{
-//            printf("%.1f\t", studentGrade[i]);
-//            if (studentGrade[i] >= 50) 
-//			{
-//                printf("PASSED\n");
-//            } 
-//			else 
-//			{
-//                printf("FAILED\n");
-//            }
-//        }
-//        printf("\n");
+
     }
 }
 
