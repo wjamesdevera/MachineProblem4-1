@@ -6,10 +6,12 @@ void viewAll();
 void updateAssess();
 void dropStudent();
 void sortedView();
+void sort();
 
 float grades[5][5];
 float originalGrades[5][5];
 float studentGrade[5] = {0,0,0,0,0};
+int viewOrder[5] = {0, 1, 2, 3, 4};
 
 /*
  * 0 = Dropped
@@ -50,7 +52,7 @@ void menu()
 			    viewAll();
 				break;
 			case 5:
-//			    sortedView();
+			    sortedView();
 			    break;
 			case 6:
 			    exit(0);
@@ -59,7 +61,6 @@ void menu()
 				break;
 		}	
 	}
-
 }
 
 // Done
@@ -215,10 +216,83 @@ void viewAll() {
 		{
 			printf("N/A");
 		}
-        
-
     }
 }
 
+void sortedView()
+{
+	sort();
+	for (i = 0; i < 5; i++) 
+	{
+		int currentView = viewOrder[i];
+        printf("Student %d:", currentView + 1);
+        for (x = 0; x < 5; x++) 
+		{
+            printf("%.1f\t", grades[currentView][x]);
+        }
+        
+        printf("%.1f\t", studentGrade[currentView]);
+        if (remark[currentView] == 0)
+        {
+        	printf("DROPPED\n");
+		}
+		else if (remark[currentView] == 1)
+		{
+			printf("FAILED\n");
+		}
+		else if (remark[currentView] == 2)
+		{
+			printf("PASSED\n");
+		}
+		else
+		{
+			printf("N/A");
+		}
+    }
+    
+    for (i = 0; i < 5; i++)
+    {
+    	printf("%d\n", viewOrder[i]);
+	}
+}
+
+void sort()
+{
+	int min;
+	int n = 5;
+	for (i = 0; i < n-1; i++)
+	{
+		min = i;
+		for (j = i+1; j < n; j++)
+		{
+			if ((studentGrade[min] > studentGrade[j]) && (remark[min] != 0 && remark[j] != 0))
+			{
+				min = j;	
+			}
+			if (remark[min] == 0 && remark[j] != 0)
+			{
+				min = j;
+			}
+		}
+		
+		if (min != i)
+		{
+			swap(&studentGrade[i], &studentGrade[min]);
+			
+			swap(&remark[i], &remark[min]);
+			for (j = 0; j < 5; j++)
+			{
+				swap(&grades[i][j], &grades[min][j]);
+			}
+		}
+	}
+}
+
+void swap(int *xp, int *yp)
+{
+	int tmp = *xp;
+	*xp = *yp;
+	*yp = tmp;
+}
 
 
