@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void Menu();
+void menu();
 void addAssess();
 void viewAll();
 void updateAssess();
@@ -10,19 +10,24 @@ void sortedView();
 float grades[5][5];
 float originalGrades[5][5];
 float studentGrade[5] = {0,0,0,0,0};
+
+/*
+ * 0 = Dropped
+ * 1 = Failed
+ * 2 = Passed
+ */
+int remark[5] = {1, 1, 1, 1, 1};
 float FA, SA;
 int student;
-int i,j,k,x;
+int i, j, k, x;
 
 int main (void)
 {
-	Menu();
-	
+	menu();
 }
 
-void Menu()
+void menu()
 {
-	
 	int choice;
 	
 	while (1)
@@ -45,7 +50,7 @@ void Menu()
 			    viewAll();
 				break;
 			case 5:
-			    sortedView();
+//			    sortedView();
 			    break;
 			case 6:
 			    exit(0);
@@ -57,41 +62,48 @@ void Menu()
 
 }
 
+// Done
 void addAssess()
 {
-
 	while(1)
 	{
-	printf("Student <1-5>:");
-	scanf("%d", & student);
-	
-			if( student >= 1 && student <= 5)
+		printf("Student <1-5>:");
+		scanf("%d", & student);
+		
+		if( student >= 1 && student <= 5)
+		{
+			FA = 0;
+			SA = 0;
+			int studentNo = student - 1;
+			for( i = 0; i < 5; i++)
 			{
-				FA = 0;
-				SA = 0;
-				for( i = 0; i < 5; i++)
+				if( i <= 2)
 				{
-					if( i <= 2)
-					{
-						printf("FA %d: ", i + 1);
-						scanf("%f", & grades[student-1][i]);
-						FA += grades[student-1][i];
-					}
-					else
-					{
-						printf("SA %d: ", i - 2);
-						scanf("%f", & grades[student-1][i]);
-						SA += grades[student-1][i];
-					}
+					printf("FA %d: ", i + 1);
+					scanf("%f", & grades[student-1][i]);
+					FA += grades[studentNo][i];
 				}
-				studentGrade [student - 1] = ((FA/3) * .7) + ((SA/2) * .3);
-				break;
+				else
+				{
+					printf("SA %d: ", i - 2);
+					scanf("%f", & grades[student-1][i]);
+					SA += grades[studentNo][i];
+				}
 			}
-			else
+			float studentAvg = ((FA/3) * .7) + ((SA/2) * .3);
+			studentGrade[studentNo] = studentAvg;
+			
+			if (studentAvg >= 50)
 			{
-				printf("INPUT INCORRECT!");
+				remark[studentNo] = 2; // Student passed
 			}
-		}							
+			break;
+		}
+		else
+		{
+			printf("INPUT INCORRECT!");
+		}
+	}							
 }
 
 void updateAssess()
@@ -149,14 +161,16 @@ void updateAssess()
 }
 
 void dropStudent() {
+	int studentNo;
     while (1) 
 	{
         printf("Student <1-5>:");
         scanf("%d", & student);
+        studentNo = student - 1;
         
         if (student >= 1 && student <= 5) 
 		{
-            studentGrade[student - 1] = -1; // mark student as dropped
+            remark[studentNo] = 0; // mark student as dropped
             printf("Student %d dropped.\n", student);
             break;
         } 
@@ -168,7 +182,7 @@ void dropStudent() {
 }
 
 void viewAll() {
-    printf("\n\tFA1\tFA2\tFA3\tSA1\tSA2\tAVERAGE\tREMARKS\n");
+    printf("\n\t  FA1\tFA2\tFA3\tSA1\tSA2\tAVERAGE\tREMARKS\n");
     for (i = 0; i < 5; i++) 
 	{
         printf("Student %d:", i + 1);
@@ -177,34 +191,45 @@ void viewAll() {
             printf("%.1f\t", grades[i][x]);
         }
         
-        if (studentGrade[i] < 0) // student has been dropped
-		{ 
-			printf("%.1f\t", studentGrade[i]);
-            printf("DROPPED\n");
-        }
-		 
-		else 
+        printf("%.1f\t", studentGrade[i]);
+        if (remark[i] == 0)
+        {
+        	printf("DROPPED\n");
+		}
+		else if (remark[i] == 1)
 		{
-            printf("%.1f\t", studentGrade[i]);
-            if (studentGrade[i] >= 50) 
-			{
-                printf("PASSED\n");
-            } 
-			else 
-			{
-                printf("FAILED\n");
-            }
-        }
-        printf("\n");
+			printf("FAILED\n");
+		}
+		else if (remark[i] == 2)
+		{
+			printf("PASSED\n");
+		}
+		else
+		{
+			printf("N/A");
+		}
+        
+//        if (studentGrade[i] < 0) // student has been dropped
+//		{ 
+//			
+//            printf("DROPPED\n");
+//        }
+//		 
+//		else 
+//		{
+//            printf("%.1f\t", studentGrade[i]);
+//            if (studentGrade[i] >= 50) 
+//			{
+//                printf("PASSED\n");
+//            } 
+//			else 
+//			{
+//                printf("FAILED\n");
+//            }
+//        }
+//        printf("\n");
     }
 }
-
-
-
-
-
-
-
 
 
 
